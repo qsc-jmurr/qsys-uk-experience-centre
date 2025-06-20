@@ -2,7 +2,23 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1c1c1c;
+
+  --blue: #0166ff;
+  --red: #ee0153;
+  --green: #26db18;
+  --cyan: rgb(27, 212, 219);
+  --magenta: #e816b0;
+  --yellow: #f3c623;
+
+  --black: #1c1c1c;
+  --white: #ffffff;
+  --grey: #f4f2f2;
+
+  --bold-blue: linear-gradient(90deg, #0166ff, #00d4ff);
+  --electric-red: linear-gradient(90deg, #ee0153, #e816b0);
+  --expert-green: linear-gradient(90deg, #26db18, #00d4ff);
+
 }
 
 @theme inline {
