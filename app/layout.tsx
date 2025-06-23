@@ -1,4 +1,3 @@
-import { Qrwc } from '@q-sys/qrwc'
 import './globals.css'
 import { QrwcProvider } from './lib/QrwcProvider'
 import localFont from 'next/font/local'
@@ -17,7 +16,7 @@ const myFont = localFont({
 
 export const metadata = {
   title: 'QRWC App',
-  description: 'Testing QRWC connection',
+  description: 'A QRWC Application for Q-SYS UK Experience Centre',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
