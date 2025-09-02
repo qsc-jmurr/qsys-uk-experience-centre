@@ -28,4 +28,4 @@ jobs:
           file: ./Dockerfile
           platforms: linux/arm64,linux/amd64
           push: true
-          tags: ghcr.io/emenius96/qsys-uk-experience-centre:latest
+          tags: ghcr.io/qsc-jmurr/qsys-uk-experience-centre:latest
