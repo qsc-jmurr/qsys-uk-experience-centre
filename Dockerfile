@@ -14,6 +14,8 @@ RUN --mount=type=cache,target=/root/.npm \
     else npm install; fi
 
 FROM deps AS build
+ARG NEXT_PUBLIC_CORE_IP
+ENV NEXT_PUBLIC_CORE_IP=${NEXT_PUBLIC_CORE_IP}
 COPY . .
 RUN npm run build
 

@@ -32,5 +32,7 @@ jobs:
           push: true
           tags: |
             ghcr.io/qsc-jmurr/qsys-uk-experience-centre:latest
+          build-args: |
+            NEXT_PUBLIC_CORE_IP=${{ vars.NEXT_PUBLIC_CORE_IP }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
