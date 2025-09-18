@@ -6,15 +6,20 @@ import { Qrwc } from '@q-sys/qrwc';
 type QrwcContextType = {
   qrwc: Qrwc | null;
   isConnected: boolean;
+  roomPowerOn: boolean;
 };
 
 const QrwcContext = createContext<QrwcContextType | undefined>(undefined);
 
 export const QrwcProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [qrwc, setQrwc] = useState<Qrwc | null>(null);
-  const [isConnected, setIsConnected] = useState(false);
-  const coreIP = process.env.NEXT_PUBLIC_CORE_IP;
+  
+  //QRWC Connection Logic
+  const [qrwc, setQrwc] = useState<Qrwc | null>(null);   //State to hold the Qrwc instance
+  const [isConnected, setIsConnected] = useState(false); //State to track connection status
+  const [roomPowerOn, setRoomPowerOn] = useState<boolean>(false); // State to track room power
+  const coreIP = process.env.NEXT_PUBLIC_CORE_IP;        //Get Core IP from environment variables
 
+  
   useEffect(() => {
     let activeQrwc: Qrwc | null = null;
     let socket: WebSocket;
@@ -30,6 +35,27 @@ export const QrwcProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         activeQrwc = qrwcInstance;
         setQrwc(qrwcInstance);
+
+        
+        //Room Power Parser
+        const roomPower = qrwcInstance.components.roomPower.controls['ledPowerOn'];
+        if (roomPower) {
+          setRoomPowerOn(roomPower.state.Bool);
+          
+          const handlePowerStateChange = () => {
+            setRoomPowerOn(roomPower.state.Bool);
+            console.log(`Power state changed: ${roomPower.state.Bool}`);
+          }
+
+          if (roomPower.on) {
+            roomPower.on('update', handlePowerStateChange);
+            console.log('Subscribed to roomPower updates');
+          }
+        }
+
+
+
+
 
         qrwcInstance.on('update', (component, control, state) => {
           console.log(`Component ${component.name}.${control.name} updated:`, state);
@@ -61,7 +87,7 @@ export const QrwcProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [coreIP]);
 
   return (
-    <QrwcContext.Provider value={{ qrwc, isConnected }}>
+    <QrwcContext.Provider value={{ qrwc, isConnected, roomPowerOn }}>
       {children}
     </QrwcContext.Provider>
   );

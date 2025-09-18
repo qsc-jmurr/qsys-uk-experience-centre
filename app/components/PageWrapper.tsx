@@ -1,5 +1,7 @@
 "use client";
 
+// A wrapper component that adds page transition animations using Framer Motion
+
 import { motion } from "framer-motion";
 
 export default function PageWrapper({ children }: { children: React.ReactNode }) {

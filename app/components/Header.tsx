@@ -1,23 +1,33 @@
-"use client";
+ "use client";
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import Modal from './NavModal';
 import { useRouter } from 'next/navigation';
+import { useQrwc } from '../lib/QrwcProvider';
+import Settings from './SettingsModal';
 
-type HeaderProps = {
-    onOpenSettings: () => void;
-}
-
-export default function Header({onOpenSettings}: HeaderProps) {
+export default function Header() {
     const router = useRouter();
+    const { qrwc, isConnected } = useQrwc();
+    const roomPower = qrwc?.components.roomPower.controls['ledPowerOn']
+
+    const handleOpenSettings = () => {
+        console.log('Settings button clicked');
+    
+        Settings({ isOpen: true, onClose: () => {} });
+    }
+
+    if (!(isConnected && roomPower?.state.Bool === true)) {
+        return null; // Don't render the header if not connected
+    }
+
     return(
         <header className="bg-gray-800 text-white p-4 flex justify-between items-center">
-            <button onClick={() => router.push('/main')} className="text-lg font-bold">
+            <button onClick={() => router.push('/')} className="text-lg font-bold">
                 <img src="/logo.png" alt="" className="w-80 h-18"/>
             </button>   
             <button
-            onClick={onOpenSettings}>
+            onClick={handleOpenSettings}>
                 Settings
             </button>
         </header>

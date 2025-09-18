@@ -1,11 +1,19 @@
 import Link from 'next/link';
+import { useQrwc } from '../lib/QrwcProvider';
 
 export default function Footer() {
+  const { qrwc, isConnected } = useQrwc();
+  const roomPower = qrwc?.components.roomPower.controls['ledPowerOn']
+
+  if (!(isConnected && roomPower?.state.Bool === true)) {
+        return null; // Don't render the footer if not connected
+  }
+
   return (
     <footer className="bg-gray-800 text-white py-4">
       <div className="container mx-auto text-center">
         <p className="text-sm">
-          &copy; {new Date().getFullYear()} Q-SYS UK. All rights reserved.
+          {new Date().getFullYear()} Q-SYS UK. All rights reserved.
         </p>
         <div className="flex space-x-4"> 
           <Link href="https://github.com/emenius96" target="_blank" rel="noopener noreferrer" className="flex items-center">

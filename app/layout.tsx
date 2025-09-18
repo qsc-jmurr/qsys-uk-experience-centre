@@ -1,6 +1,11 @@
+'use client';
+
 import './globals.css'
 import { QrwcProvider } from './lib/QrwcProvider'
 import localFont from 'next/font/local'
+import Header from './components/Header'
+import Footer from './components/Footer'
+import React from 'react'
 
 const myFont = localFont({
   src: [
@@ -14,17 +19,14 @@ const myFont = localFont({
   display: 'swap',
 })
 
-export const metadata = {
-  title: 'QRWC App',
-  description: 'A QRWC Application for Q-SYS UK Experience Centre',
-}
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
         <QrwcProvider>
-          {children}
+          <Header />
+            {children}
+          <Footer />
         </QrwcProvider>
       </body>
     </html>
